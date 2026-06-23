@@ -1,49 +1,123 @@
 import 'package:flutter/material.dart';
-
+import 'pelanggaran_form_page.dart';
+import 'detail_pelanggaran_page.dart';
 import 'api_service.dart';
 import 'login_page.dart';
 
-class DashboardPage
-    extends StatefulWidget {
+class DashboardPage extends StatefulWidget {
 
-  const DashboardPage(
-      {super.key});
+  const DashboardPage({super.key});
 
   @override
-  State<DashboardPage>
-  createState() =>
+  State<DashboardPage> createState() =>
       _DashboardPageState();
+
 }
 
 class _DashboardPageState
     extends State<DashboardPage> {
 
-  String name="";
+  String name = "";
+
+  int total = 0;
+  int menunggu = 0;
+  int diproses = 0;
+  int selesai = 0;
+
+  List pelanggaran = [];
 
   @override
   void initState() {
     super.initState();
-    loadProfile();
+
+    loadData();
   }
 
-  Future<void> loadProfile()
+  Future<void> loadData()
   async {
 
-    final data =
+    final profile =
         await ApiService()
             .getProfile();
 
-    if(data!=null){
+    final stats =
+        await ApiService()
+            .getDashboardStats();
 
-      setState(() {
+    final data =
+        await ApiService()
+            .getPelanggaran();
+
+    setState(() {
+
+      if(profile!=null){
 
         name =
-        data["user"]
-        ["name"];
+        profile["user"]["name"];
 
-      });
+      }
 
-    }
+      if(stats!=null){
+
+        total =
+        stats["total"];
+
+        menunggu =
+        stats["menunggu"];
+
+        diproses =
+        stats["diproses"];
+
+        selesai =
+        stats["selesai"];
+
+      }
+
+      pelanggaran =
+          data;
+
+    });
+
+  }
+
+  Widget statCard(
+      String title,
+      int value){
+
+    return Expanded(
+      child: Card(
+        child: Padding(
+          padding:
+          const EdgeInsets.all(
+              16),
+          child: Column(
+            children: [
+
+              Text(
+                title,
+                style:
+                const TextStyle(
+                    fontSize:16),
+              ),
+
+              const SizedBox(
+                  height:10),
+
+              Text(
+                value.toString(),
+                style:
+                const TextStyle(
+                  fontSize:24,
+                  fontWeight:
+                  FontWeight.bold,
+                ),
+              )
+
+            ],
+          ),
+        ),
+      ),
+    );
 
   }
 
@@ -57,9 +131,17 @@ class _DashboardPageState
 
         title:
         const Text(
-            "Dashboard"),
+            "Sistem Tilang"),
 
         actions: [
+
+          IconButton(
+            onPressed:
+                loadData,
+            icon:
+            const Icon(
+                Icons.refresh),
+          ),
 
           IconButton(
             onPressed: () async {
@@ -70,10 +152,10 @@ class _DashboardPageState
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder:(_)=>
+                  builder: (_) =>
                   const LoginPage(),
                 ),
-                    (route)=>false,
+                    (route) => false,
               );
 
             },
@@ -85,15 +167,197 @@ class _DashboardPageState
         ],
       ),
 
-      body: Center(
-        child: Text(
-          "Selamat Datang $name",
-          style:
-          const TextStyle(
-            fontSize:22,
-          ),
+      body: Padding(
+
+        padding:
+        const EdgeInsets.all(
+            12),
+
+        child: Column(
+
+          children: [
+
+            Align(
+              alignment:
+              Alignment.centerLeft,
+              child: Text(
+                "Selamat Datang, $name",
+                style:
+                const TextStyle(
+                  fontSize:22,
+                  fontWeight:
+                  FontWeight.bold,
+                ),
+              ),
+            ),
+
+            const SizedBox(
+                height:15),
+
+            Row(
+              children: [
+
+                statCard(
+                    "Total",
+                    total),
+
+                statCard(
+                    "Menunggu",
+                    menunggu),
+
+              ],
+            ),
+
+            Row(
+              children: [
+
+                statCard(
+                    "Diproses",
+                    diproses),
+
+                statCard(
+                    "Selesai",
+                    selesai),
+
+              ],
+            ),
+
+            const SizedBox(
+                height:15),
+
+            const Align(
+              alignment:
+              Alignment.centerLeft,
+              child: Text(
+                "Daftar Pelanggaran",
+                style:
+                TextStyle(
+                  fontSize:20,
+                  fontWeight:
+                  FontWeight.bold,
+                ),
+              ),
+            ),
+
+            const SizedBox(
+                height:10),
+
+            Expanded(
+              child:
+              ListView.builder(
+
+                itemCount:
+                pelanggaran.length,
+
+                itemBuilder:
+                    (context,index){
+
+                  final item =
+                  pelanggaran[index];
+
+                  return Card(
+
+                    child: ListTile(
+
+                      onTap: () async {
+
+                        await Navigator.push(
+
+                          context,
+
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                DetailPelanggaranPage(
+                              id: item["id"],
+                            ),
+                          ),
+
+                        );
+
+                        loadData();
+
+                      },
+
+                      title: Text(
+                        item["nama"] ?? "",
+                      ),
+
+                      subtitle: Column(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                        children: [
+
+                          Text(
+                            item["plat_nomor"] ?? "",
+                          ),
+
+                          Text(
+                            item["jenis_pelanggaran"] ?? "",
+                          ),
+
+                          Text(
+                            "Petugas: ${item["petugas"]}",
+                          ),
+
+                          Text(
+                            "Status: ${item["status"]}",
+                          ),
+
+                        ],
+                      ),
+
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 18,
+                      ),
+
+                    ),
+
+                  );
+
+                },
+
+              ),
+            )
+
+          ],
+
         ),
+
       ),
+
+      floatingActionButton:
+      FloatingActionButton(
+
+        child:
+        const Icon(Icons.add),
+
+        onPressed: () async {
+
+          final result =
+          await Navigator.push(
+
+            context,
+
+            MaterialPageRoute(
+              builder: (_) =>
+              const PelanggaranFormPage(),
+            ),
+
+          );
+
+          if(result==true){
+
+            loadData();
+
+          }
+
+        },
+
+      ),
+
     );
+
   }
+
 }

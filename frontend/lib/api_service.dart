@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
 
 class ApiService {
 
@@ -94,6 +95,219 @@ class ApiService {
 
     await prefs.clear();
 
+  }
+
+  Future<Map<String, dynamic>?> getDashboardStats() async {
+
+    final token = await getToken();
+
+    final response = await http.get(
+      Uri.parse("$baseUrl/dashboard/stats"),
+      headers: {
+        "Authorization": "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    }
+
+    return null;
+  }
+
+  Future<List<dynamic>> getPelanggaran() async {
+
+    final token = await getToken();
+
+    final response = await http.get(
+      Uri.parse("$baseUrl/pelanggaran"),
+      headers: {
+        "Authorization": "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+
+      return jsonDecode(response.body);
+
+    }
+
+    return [];
+  }
+
+  Future<bool> savePelanggaran({
+    required String nama,
+    required String nik,
+    required String platNomor,
+    required String kendaraan,
+    required String jenisPelanggaran,
+    required String lokasi,
+    required String status,
+    File? foto,
+  }) async {
+
+    final token = await getToken();
+
+    var request =
+        http.MultipartRequest(
+      "POST",
+      Uri.parse(
+        "$baseUrl/pelanggaran",
+      ),
+    );
+
+    request.headers[
+        "Authorization"] =
+        "Bearer $token";
+
+    request.fields["nama"] = nama;
+    request.fields["nik"] = nik;
+    request.fields["plat_nomor"] =
+        platNomor;
+    request.fields["kendaraan"] =
+        kendaraan;
+    request.fields[
+        "jenis_pelanggaran"] =
+        jenisPelanggaran;
+    request.fields["lokasi"] =
+        lokasi;
+    request.fields["status"] =
+        status;
+
+    if (foto != null) {
+
+      request.files.add(
+        await http.MultipartFile
+            .fromPath(
+          "foto",
+          foto.path,
+        ),
+      );
+
+    }
+
+    final response =
+        await request.send();
+
+    return response.statusCode ==
+        201;
+  }
+
+  Future<bool> deletePelanggaran(
+      int id) async {
+
+    final token =
+        await getToken();
+
+    final response =
+        await http.delete(
+      Uri.parse(
+        "$baseUrl/pelanggaran/$id",
+      ),
+      headers: {
+        "Authorization":
+            "Bearer $token"
+      },
+    );
+
+    return response.statusCode ==
+            200;
+  }
+
+  Future<Map<String,dynamic>?>
+  getDetailPelanggaran(
+      int id) async {
+
+    final token =
+        await getToken();
+
+    final response =
+        await http.get(
+      Uri.parse(
+        "$baseUrl/pelanggaran/$id",
+      ),
+      headers: {
+        "Authorization":
+            "Bearer $token"
+      },
+    );
+
+    if(response.statusCode==200){
+
+      return jsonDecode(
+          response.body);
+
+    }
+
+    return null;
+  }
+
+  Future<bool> updatePelanggaran({
+    required int id,
+    required String nama,
+    required String nik,
+    required String platNomor,
+    required String kendaraan,
+    required String jenisPelanggaran,
+    required String lokasi,
+    required String status,
+    File? foto,
+  }) async {
+
+    final token =
+        await getToken();
+
+    var request =
+        http.MultipartRequest(
+      "PUT",
+      Uri.parse(
+        "$baseUrl/pelanggaran/$id",
+      ),
+    );
+
+    request.headers[
+        "Authorization"] =
+        "Bearer $token";
+
+    request.fields["nama"] =
+        nama;
+
+    request.fields["nik"] =
+        nik;
+
+    request.fields["plat_nomor"] =
+        platNomor;
+
+    request.fields["kendaraan"] =
+        kendaraan;
+
+    request.fields[
+        "jenis_pelanggaran"] =
+        jenisPelanggaran;
+
+    request.fields["lokasi"] =
+        lokasi;
+
+    request.fields["status"] =
+        status;
+
+    if(foto!=null){
+
+      request.files.add(
+        await http.MultipartFile
+            .fromPath(
+          "foto",
+          foto.path,
+        ),
+      );
+
+    }
+
+    final response =
+        await request.send();
+
+    return response.statusCode ==
+        200;
   }
 
 }
