@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'api_service.dart';
 import 'dashboard_page.dart';
 
@@ -70,6 +71,74 @@ class _LoginPageState
 
   }
 
+  Future<void> loginWithFace()
+  async {
+
+    final picker =
+        ImagePicker();
+
+    final picked =
+        await picker.pickImage(
+      source:
+      ImageSource.camera,
+    );
+
+    if(picked==null){
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final result =
+        await ApiService()
+            .loginWithFace(
+          File(
+            picked.path,
+          ),
+        );
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if(result!=null){
+
+      if(!mounted)return;
+
+      Navigator.pushReplacement(
+
+        context,
+
+        MaterialPageRoute(
+          builder:(_)=>
+          const DashboardPage(),
+        ),
+
+      );
+
+    }else{
+
+      if(!mounted)return;
+
+      ScaffoldMessenger.of(
+          context)
+          .showSnackBar(
+
+        const SnackBar(
+          content:
+          Text(
+            "Wajah tidak dikenali",
+          ),
+        ),
+
+      );
+
+    }
+
+  }
+
   @override
   Widget build(
       BuildContext context) {
@@ -77,15 +146,16 @@ class _LoginPageState
     return Scaffold(
 
       appBar: AppBar(
-        title:
-        const Text(
-            "Sistem Tilang"),
+        title: const Text(
+          "Sistem Tilang",
+        ),
       ),
 
       body: Padding(
+
         padding:
-        const EdgeInsets.all(
-            16),
+        const EdgeInsets.all(16),
+
         child: Column(
 
           children: [
@@ -101,13 +171,13 @@ class _LoginPageState
             ),
 
             const SizedBox(
-                height:20),
+              height: 20,
+            ),
 
             TextField(
               controller:
               passwordController,
-              obscureText:
-              true,
+              obscureText: true,
               decoration:
               const InputDecoration(
                 labelText:
@@ -116,21 +186,83 @@ class _LoginPageState
             ),
 
             const SizedBox(
-                height:20),
+              height: 20,
+            ),
 
-            ElevatedButton(
-              onPressed:
-              isLoading
-                  ? null
-                  : login,
+            SizedBox(
+
+              width:
+              double.infinity,
+
               child:
-              const Text(
-                  "Login"),
-            )
+              ElevatedButton(
+
+                onPressed:
+                isLoading
+                    ? null
+                    : login,
+
+                child:
+                const Text(
+                  "Login",
+                ),
+
+              ),
+
+            ),
+
+            const SizedBox(
+              height: 15,
+            ),
+
+            SizedBox(
+
+              width:
+              double.infinity,
+
+              child:
+              OutlinedButton.icon(
+
+                onPressed:
+                isLoading
+                    ? null
+                    : loginWithFace,
+
+                icon:
+                const Icon(
+                  Icons.face,
+                ),
+
+                label:
+                const Text(
+                  "Login Dengan Wajah",
+                ),
+
+              ),
+
+            ),
+
+            if (isLoading)
+
+              const Padding(
+
+                padding:
+                EdgeInsets.only(
+                  top: 20,
+                ),
+
+                child:
+                CircularProgressIndicator(),
+
+              ),
 
           ],
+
         ),
+
       ),
+
     );
+
   }
 }

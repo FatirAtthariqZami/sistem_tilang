@@ -310,4 +310,54 @@ class ApiService {
         200;
   }
 
+  Future<Map<String,dynamic>?> loginWithFace(
+      File image) async {
+
+    var request =
+        http.MultipartRequest(
+      "POST",
+      Uri.parse(
+        "http://192.168.18.10:5000/recognize-face",
+      ),
+    );
+
+    request.files.add(
+
+      await http.MultipartFile
+          .fromPath(
+        "image",
+        image.path,
+      ),
+
+    );
+
+    final response =
+        await request.send();
+
+    if(response.statusCode==200){
+
+      final responseBody =
+          await response.stream
+              .bytesToString();
+
+      final data =
+          jsonDecode(
+              responseBody);
+
+      SharedPreferences prefs =
+          await SharedPreferences
+              .getInstance();
+
+      await prefs.setString(
+        "token",
+        data["token"],
+      );
+
+      return data;
+
+    }
+
+    return null;
+  }
+
 }
