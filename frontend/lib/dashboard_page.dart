@@ -3,6 +3,7 @@ import 'pelanggaran_form_page.dart';
 import 'detail_pelanggaran_page.dart';
 import 'api_service.dart';
 import 'login_page.dart';
+import 'chat_page.dart';
 
 class DashboardPage extends StatefulWidget {
 
@@ -136,11 +137,33 @@ class _DashboardPageState
         actions: [
 
           IconButton(
-            onPressed:
-                loadData,
-            icon:
-            const Icon(
-                Icons.refresh),
+
+            icon: const Icon(
+              Icons.smart_toy,
+            ),
+
+            onPressed: () {
+
+              Navigator.push(
+
+                context,
+
+                MaterialPageRoute(
+                  builder: (_) =>
+                      ChatPage(),
+                ),
+
+              );
+
+            },
+
+          ),
+
+          IconButton(
+            onPressed: loadData,
+            icon: const Icon(
+              Icons.refresh,
+            ),
           ),
 
           IconButton(
@@ -159,9 +182,9 @@ class _DashboardPageState
               );
 
             },
-            icon:
-            const Icon(
-                Icons.logout),
+            icon: const Icon(
+              Icons.logout,
+            ),
           )
 
         ],
@@ -325,6 +348,8 @@ class _DashboardPageState
         ),
 
       ),
+
+
 
       floatingActionButton:
       FloatingActionButton(

@@ -34,11 +34,11 @@ face_rec_model = dlib.face_recognition_model_v1(
 )
 
 knn = joblib.load(
-    "knn_model.pkl"
+    "knn_model_face.pkl"
 )
 
 le = joblib.load(
-    "label_encoder.pkl"
+    "label_encoder_face.pkl"
 )
 
 X_train = np.load(

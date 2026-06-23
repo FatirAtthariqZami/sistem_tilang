@@ -360,4 +360,47 @@ class ApiService {
     return null;
   }
 
+  Future<String> askChatbot(
+      String message) async {
+
+    try {
+
+      final response =
+          await http.post(
+
+        Uri.parse(
+          "http://192.168.18.10:8000/chat",
+        ),
+
+        headers: {
+          "Content-Type":
+          "application/json",
+        },
+
+        body: jsonEncode({
+          "message": message,
+        }),
+
+      );
+
+      if(response.statusCode==200){
+
+        final data =
+            jsonDecode(
+                response.body);
+
+        return data["response"];
+
+      }
+
+      return "Maaf, saya tidak dapat memproses pertanyaan Anda.";
+
+    } catch (e) {
+
+      return "Gagal terhubung ke server NLP.";
+
+    }
+
+  }
+
 }

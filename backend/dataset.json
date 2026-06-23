@@ -1,0 +1,201 @@
+{
+  "intents": [
+
+    {
+      "tag": "salam",
+      "patterns": [
+        "halo",
+        "hai",
+        "selamat pagi",
+        "selamat siang",
+        "selamat malam",
+        "hello"
+      ],
+      "responses": [
+        "Halo, saya Asisten Tilang AI. Ada yang bisa saya bantu terkait pelanggaran lalu lintas?"
+      ]
+    },
+
+    {
+      "tag": "helm",
+      "patterns": [
+        "apa denda helm",
+        "tidak memakai helm",
+        "sanksi helm",
+        "tilang helm",
+        "pelanggaran helm",
+        "denda tidak pakai helm"
+      ],
+      "responses": [
+        "Pengendara yang tidak memakai helm dapat dikenakan Pasal 291 Ayat (1) UU No.22 Tahun 2009 dengan denda maksimal Rp250.000 atau kurungan paling lama 1 bulan."
+      ]
+    },
+
+    {
+      "tag": "sim",
+      "patterns": [
+        "tidak punya sim",
+        "tidak membawa sim",
+        "pelanggaran sim",
+        "denda sim",
+        "sanksi sim"
+      ],
+      "responses": [
+        "Pengemudi yang tidak memiliki atau tidak dapat menunjukkan SIM dapat dikenakan Pasal 281 UU No.22 Tahun 2009 dengan denda maksimal Rp1.000.000."
+      ]
+    },
+
+    {
+      "tag": "stnk",
+      "patterns": [
+        "tidak membawa stnk",
+        "pelanggaran stnk",
+        "sanksi stnk",
+        "denda stnk"
+      ],
+      "responses": [
+        "Pengendara yang tidak dapat menunjukkan STNK dapat dikenakan Pasal 288 Ayat (1) UU No.22 Tahun 2009 dengan denda maksimal Rp500.000."
+      ]
+    },
+
+    {
+      "tag": "lampu_merah",
+      "patterns": [
+        "lampu merah",
+        "menerobos lampu merah",
+        "tilang lampu merah",
+        "sanksi lampu merah",
+        "denda lampu merah"
+      ],
+      "responses": [
+        "Pelanggaran lampu merah dapat dikenakan Pasal 287 Ayat (2) UU No.22 Tahun 2009 dengan denda maksimal Rp500.000."
+      ]
+    },
+
+    {
+      "tag": "sabuk_pengaman",
+      "patterns": [
+        "tidak pakai sabuk pengaman",
+        "sabuk pengaman",
+        "sanksi seatbelt",
+        "denda seatbelt"
+      ],
+      "responses": [
+        "Pengemudi mobil yang tidak menggunakan sabuk pengaman dapat dikenakan Pasal 289 UU No.22 Tahun 2009 dengan denda maksimal Rp250.000."
+      ]
+    },
+
+    {
+      "tag": "melawan_arah",
+      "patterns": [
+        "melawan arah",
+        "kendaraan melawan arah",
+        "sanksi melawan arah",
+        "denda melawan arah"
+      ],
+      "responses": [
+        "Pengendara yang melawan arus atau melawan arah dapat dikenakan sanksi sesuai peraturan lalu lintas yang berlaku."
+      ]
+    },
+
+    {
+      "tag": "knalpot",
+      "patterns": [
+        "knalpot brong",
+        "denda knalpot brong",
+        "sanksi knalpot",
+        "tilang knalpot"
+      ],
+      "responses": [
+        "Penggunaan knalpot yang tidak sesuai spesifikasi teknis dapat dikenakan sanksi sesuai ketentuan lalu lintas yang berlaku."
+      ]
+    },
+
+    {
+      "tag": "bayar_tilang",
+      "patterns": [
+        "cara bayar tilang",
+        "pembayaran tilang",
+        "bagaimana membayar tilang",
+        "bayar denda tilang"
+      ],
+      "responses": [
+        "Pembayaran tilang dapat dilakukan sesuai petunjuk yang diberikan petugas atau melalui mekanisme e-Tilang yang berlaku."
+      ]
+    },
+
+    {
+      "tag": "sidang_tilang",
+      "patterns": [
+        "sidang tilang",
+        "prosedur sidang tilang",
+        "apa itu sidang tilang",
+        "kapan sidang tilang"
+      ],
+      "responses": [
+        "Sidang tilang merupakan proses penyelesaian perkara pelanggaran lalu lintas yang ditangani sesuai ketentuan hukum yang berlaku."
+      ]
+    },
+
+    {
+      "tag": "etilang",
+      "patterns": [
+        "apa itu e tilang",
+        "e tilang",
+        "etilang",
+        "tilang elektronik"
+      ],
+      "responses": [
+        "E-Tilang adalah sistem penegakan hukum lalu lintas berbasis elektronik yang memanfaatkan teknologi informasi."
+      ]
+    },
+
+    {
+      "tag": "petugas",
+      "patterns": [
+        "siapa petugas",
+        "apa tugas petugas",
+        "fungsi petugas tilang"
+      ],
+      "responses": [
+        "Petugas berwenang melakukan penindakan terhadap pelanggaran lalu lintas sesuai ketentuan yang berlaku."
+      ]
+    },
+
+    {
+      "tag": "dokumen",
+      "patterns": [
+        "dokumen kendaraan",
+        "surat kendaraan",
+        "dokumen yang wajib dibawa"
+      ],
+      "responses": [
+        "Pengendara sebaiknya membawa SIM dan STNK yang masih berlaku saat berkendara."
+      ]
+    },
+
+    {
+      "tag": "terima_kasih",
+      "patterns": [
+        "terima kasih",
+        "makasih",
+        "thanks"
+      ],
+      "responses": [
+        "Sama-sama. Semoga informasi yang saya berikan membantu."
+      ]
+    },
+
+    {
+      "tag": "unknown",
+      "patterns": [
+        "asdfgh",
+        "qwerty"
+      ],
+      "responses": [
+        "Maaf, saya belum memahami pertanyaan tersebut. Silakan tanyakan hal yang berkaitan dengan tilang atau lalu lintas."
+      ]
+    }
+
+  ]
+}
