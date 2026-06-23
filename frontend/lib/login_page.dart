@@ -140,129 +140,123 @@ class _LoginPageState
   }
 
   @override
-  Widget build(
-      BuildContext context) {
-
+  Widget build(BuildContext context) {
     return Scaffold(
-
-      appBar: AppBar(
-        title: const Text(
-          "Sistem Tilang",
-        ),
-      ),
-
-      body: Padding(
-
-        padding:
-        const EdgeInsets.all(16),
-
-        child: Column(
-
-          children: [
-
-            TextField(
-              controller:
-              emailController,
-              decoration:
-              const InputDecoration(
-                labelText:
-                "Email",
-              ),
-            ),
-
-            const SizedBox(
-              height: 20,
-            ),
-
-            TextField(
-              controller:
-              passwordController,
-              obscureText: true,
-              decoration:
-              const InputDecoration(
-                labelText:
-                "Password",
-              ),
-            ),
-
-            const SizedBox(
-              height: 20,
-            ),
-
-            SizedBox(
-
-              width:
-              double.infinity,
-
-              child:
-              ElevatedButton(
-
-                onPressed:
-                isLoading
-                    ? null
-                    : login,
-
-                child:
-                const Text(
-                  "Login",
-                ),
-
-              ),
-
-            ),
-
-            const SizedBox(
-              height: 15,
-            ),
-
-            SizedBox(
-
-              width:
-              double.infinity,
-
-              child:
-              OutlinedButton.icon(
-
-                onPressed:
-                isLoading
-                    ? null
-                    : loginWithFace,
-
-                icon:
+      backgroundColor: Colors.white, // Memberikan warna dasar yang bersih
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0), // Padding yang lebih lega
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // --- Bagian Header/Logo ---
                 const Icon(
-                  Icons.face,
+                  Icons.gavel_rounded, // Ikon palu sidang untuk "Sistem Tilang"
+                  size: 80,
+                  color: Colors.blueAccent,
                 ),
-
-                label:
+                const SizedBox(height: 16),
                 const Text(
-                  "Login Dengan Wajah",
+                  "Sistem Tilang",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
                 ),
+                const SizedBox(height: 8),
+                const Text(
+                  "Silakan masuk ke akun Anda",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black54,
+                  ),
+                ),
+                const SizedBox(height: 40),
 
-              ),
+                // --- Input Email ---
+                TextField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: "Email",
+                    prefixIcon: const Icon(Icons.email_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[50],
+                  ),
+                ),
+                const SizedBox(height: 20),
 
+                // --- Input Password ---
+                TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: "Password",
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[50],
+                  ),
+                ),
+                const SizedBox(height: 30),
+
+                // --- Tombol Login ---
+                ElevatedButton(
+                  onPressed: isLoading ? null : login,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 2,
+                  ),
+                  child: isLoading
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text(
+                          "Login",
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                ),
+                const SizedBox(height: 16),
+
+                // --- Tombol Login Wajah ---
+                OutlinedButton.icon(
+                  onPressed: isLoading ? null : loginWithFace,
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    side: const BorderSide(color: Colors.blueAccent),
+                  ),
+                  icon: const Icon(Icons.face_retouching_natural),
+                  label: const Text(
+                    "Login Dengan Wajah",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
             ),
-
-            if (isLoading)
-
-              const Padding(
-
-                padding:
-                EdgeInsets.only(
-                  top: 20,
-                ),
-
-                child:
-                CircularProgressIndicator(),
-
-              ),
-
-          ],
-
+          ),
         ),
-
       ),
-
     );
-
   }
 }
